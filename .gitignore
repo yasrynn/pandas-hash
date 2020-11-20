@@ -7,3 +7,7 @@ pandas-hash-venv/
 # vscode files/folders
 settings.json
 .vscode/
+
+# pycache
+pandas_hash/__pycache__/
+tests/__pycache__/
