@@ -1,0 +1,9 @@
+# Virtual environment
+pandas-hash-venv/
+
+# IPython artifacts
+.ipynb_checkpoints/
+
+# vscode files/folders
+settings.json
+.vscode/
