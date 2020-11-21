@@ -10,7 +10,7 @@ def convert_hashable(obj):
             return frozenset(convert_hashable(i) for i in obj)
         elif type(obj) is dict:
             return frozenset((convert_hashable(k), convert_hashable(v)) for k,v in obj.items())
-        elif hasattr(obj, __dict__):
+        elif hasattr(obj, '__dict__'):
             return convert_hashable(obj.__dict__)
     else:
         return obj
