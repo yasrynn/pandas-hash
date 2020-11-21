@@ -1,4 +1,6 @@
 import pandas as pd
+from hashlib import sha256
+from pandas.util import hash_pandas_object
 
 def convert_hashable(obj):
     try:
@@ -19,4 +21,11 @@ def hash_object(obj):
     try:
         return hash(obj)
     except TypeError:
-        return hash(type(obj)) ^ hash(convert_hashable(obj))
+        if isinstance(obj, pd.DataFrame):
+            return (
+                sha256(hash_pandas_object(obj).values).hexdigest() + 
+                hex(hash(obj.index.name))[2:] + 
+                hex(hash(obj.columns.name))[2:]
+            )
+        else:
+            return hash(type(obj)) ^ hash(convert_hashable(obj))
