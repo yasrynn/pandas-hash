@@ -19,19 +19,20 @@ def convert_hashable(obj):
         hash(obj)
     except TypeError:
         if type(obj) is list:
-            return (list, tuple(convert_hashable(i) for i in obj))
+            out_obj = tuple(convert_hashable(i) for i in obj)
         elif type(obj) is set:
-            return (set, frozenset(convert_hashable(i) for i in obj))
+            out_obj = frozenset(convert_hashable(i) for i in obj)
         elif type(obj) is dict:
-            return (dict, frozenset((convert_hashable(k), convert_hashable(v)) for k,v in obj.items()))
+            out_obj = frozenset((convert_hashable(k), convert_hashable(v)) for k,v in obj.items())
         elif isinstance(obj, pd.DataFrame):
-            return PandasWrapper(obj)
+            out_obj = PandasWrapper(obj)
         else:
             raise TypeError(f"Don't know how to convert object of type {type(obj)} to hashable")
         # elif hasattr(obj, '__dict__'):
             # return convert_hashable(obj.__dict__)
+        return out_obj
     else:
         return obj
 
 def hash_object(obj):
-        return hash(convert_hashable(obj))
+    return hash((type(obj), convert_hashable(obj)))
