@@ -25,9 +25,12 @@ class TestHash(unittest.TestCase):
         self.assertTrue(hsh)
         self.assertNotEqual(hash(convert_hashable(obj)), hsh)
 
+    def test_hash_dict(self):
+        obj = dict(a='hello', b='there')
+        hsh = hash_object(obj)
         self.assertTrue(hsh)
-        self.assertNotEqual(hash_object(frozenset((1, 2))), hsh)
-        
+        self.assertNotEqual(hash(convert_hashable(obj)), hsh)
+
     def test_hash_pandas(self):
         df = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello'))
         hsh = hash_object(df)
