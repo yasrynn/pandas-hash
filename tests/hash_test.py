@@ -7,16 +7,24 @@ import os
 class TestHash(unittest.TestCase):
 
     def test_hash_hashable(self):
-        self.assertEqual(hash_object((1, 2)), hash((1, 2)))
-        self.assertEqual(hash_object(frozenset((1, 2))), hash(frozenset((1, 2))))
+        obj = (1, 2)
+        rev_tuple = (2, 1)
+        self.assertTrue(hash_object(obj))
+        self.assertNotEqual(hash_object(obj), hash_object(rev_tuple))
+        self.assertTrue(hash_object(frozenset(obj)))
 
     def test_hash_list(self):
-        hsh = hash_object([1, 2])
+        obj = [1, 2]
+        hsh = hash_object(obj)
         self.assertTrue(hsh)
-        self.assertNotEqual(hash_object((1, 2)), hsh)
+        self.assertNotEqual(hash(convert_hashable(obj)), hsh)
 
     def test_hash_set(self):
-        hsh = hash_object({1, 2})
+        obj = {1, 2}
+        hsh = hash_object(obj)
+        self.assertTrue(hsh)
+        self.assertNotEqual(hash(convert_hashable(obj)), hsh)
+
         self.assertTrue(hsh)
         self.assertNotEqual(hash_object(frozenset((1, 2))), hsh)
         
