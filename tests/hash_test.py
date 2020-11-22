@@ -36,8 +36,6 @@ class TestHash(unittest.TestCase):
         hsh = hash_object(df)
         hsh2 = hash_object(pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello2')))
         self.assertTrue(hsh)
-        print(hsh)
-        print(hsh2)
         self.assertNotEqual(hsh, hsh2)
         self.assertNotEqual(hsh, hash_object(df.rename_axis('newindex', axis=0)))
         self.assertNotEqual(hsh, hash_object(df.rename_axis('newcolumns', axis=1)))
