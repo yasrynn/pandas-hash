@@ -23,7 +23,7 @@ def convert_hashable(obj):
         elif type(obj) is set:
             out_obj = frozenset(convert_hashable(i) for i in obj)
         elif type(obj) is dict:
-            out_obj = frozenset((convert_hashable(k), convert_hashable(v)) for k,v in obj.items())
+            out_obj = frozenset((k, convert_hashable(v)) for k,v in obj.items())
         elif isinstance(obj, pd.DataFrame):
             out_obj = PandasWrapper(obj)
         else:
