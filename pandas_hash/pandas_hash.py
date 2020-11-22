@@ -2,7 +2,7 @@ import pandas as pd
 from hashlib import sha256
 from pandas.util import hash_pandas_object
 
-class PandasWrapper:
+class PandasDataFrameWrapper:
     def __init__(self, obj):
         self.obj = obj
 
@@ -25,7 +25,7 @@ def convert_hashable(obj):
         elif type(obj) is dict:
             out_obj = frozenset((k, convert_hashable(v)) for k,v in obj.items())
         elif isinstance(obj, pd.DataFrame):
-            out_obj = PandasWrapper(obj)
+            out_obj = PandasDataFrameWrapper(obj)
         else:
             raise TypeError(f"Don't know how to convert object of type {type(obj)} to hashable")
         # elif hasattr(obj, '__dict__'):
