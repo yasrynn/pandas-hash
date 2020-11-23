@@ -2,8 +2,6 @@ import unittest
 import pandas as pd
 from pandas_hash.pandas_hash import convert_hashable, hash_object
 
-import os
-
 class TestHash(unittest.TestCase):
 
     def test_hash_hashable(self):
