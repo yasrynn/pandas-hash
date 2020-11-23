@@ -15,27 +15,28 @@ class TestHash(unittest.TestCase):
 
     def test_hash_list(self):
         obj = [1, 2]
-        hsh = hash_object(obj)
-        self.assertTrue(hsh)
-        self.assertNotEqual(hash(convert_hashable(obj)), hsh)
+        obj_rev = list(reversed(obj))
+        self.assertTrue(hash_object(obj))
+        self.assertNotEqual(hash(convert_hashable(obj)), hash_object(obj))
+        self.assertNotEqual(hash_object(obj), hash_object(obj_rev))
 
     def test_hash_set(self):
         obj = {1, 2}
-        hsh = hash_object(obj)
-        self.assertTrue(hsh)
-        self.assertNotEqual(hash(convert_hashable(obj)), hsh)
+        self.assertTrue(hash_object(obj))
+        self.assertNotEqual(hash(convert_hashable(obj)), hash_object(obj))
 
     def test_hash_dict(self):
         obj = dict(a='hello', b='there')
-        hsh = hash_object(obj)
-        self.assertTrue(hsh)
-        self.assertNotEqual(hash(convert_hashable(obj)), hsh)
+        obj_rev = dict(b='there', a='hello')
+        self.assertTrue(hash_object(obj))
+        self.assertNotEqual(hash(convert_hashable(obj)), hash_object(obj))
+        # For now I guess differently ordered dicts should be hashed the same
+        self.assertEqual(hash_object(obj), hash_object(obj_rev)) 
 
     def test_hash_pandas(self):
         df = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello'))
-        hsh = hash_object(df)
-        hsh2 = hash_object(pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello2')))
-        self.assertTrue(hsh)
-        self.assertNotEqual(hsh, hsh2)
-        self.assertNotEqual(hsh, hash_object(df.rename_axis('newindex', axis=0)))
-        self.assertNotEqual(hsh, hash_object(df.rename_axis('newcolumns', axis=1)))
+        df2 = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello2'))
+        self.assertTrue(hash_object(df))
+        self.assertNotEqual(hash_object(df), hash_object(df2))
+        self.assertNotEqual(hash_object(df), hash_object(df.rename_axis('newindex', axis=0)))
+        self.assertNotEqual(hash_object(df), hash_object(df.rename_axis('newcolumns', axis=1)))
