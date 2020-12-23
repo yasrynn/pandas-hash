@@ -31,10 +31,21 @@ class TestHash(unittest.TestCase):
         # For now I guess differently ordered dicts should be hashed the same
         self.assertEqual(hash_object(obj), hash_object(obj_rev)) 
 
-    def test_hash_pandas(self):
-        df = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello'))
-        df2 = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], name='hello2'))
+    def test_hash_dataframe(self):
+        df = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], str_col=['hello1', 'hello2', 'hello3']))
+        df2 = pd.DataFrame(dict(column1=[1, 3, 5], column2=[2, 3, 5], str_col=['hello1', 'hello2', 'hello4']))
         self.assertTrue(hash_object(df))
+        self.assertEqual(hash_object(df), hash_object(df))
         self.assertNotEqual(hash_object(df), hash_object(df2))
         self.assertNotEqual(hash_object(df), hash_object(df.rename_axis('newindex', axis=0)))
         self.assertNotEqual(hash_object(df), hash_object(df.rename_axis('newcolumns', axis=1)))
+        self.assertNotEqual(hash_object(df), hash_object(df.set_index(pd.Index([2, 4, 6]))))
+        self.assertNotEqual(hash_object(df), hash_object(df.set_index(pd.Index(['2', '4', '6']))))
+
+    def test_hash_series(self):
+        srs = pd.Series([6, 7, 8], name='hello')
+        srs2 = pd.Series([6, 7, 9], name='hello')
+        self.assertEqual(hash_object(srs), hash_object(srs))
+        self.assertNotEqual(hash_object(srs), hash_object(srs2))
+        
+        
