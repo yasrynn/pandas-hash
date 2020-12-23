@@ -43,9 +43,13 @@ class TestHash(unittest.TestCase):
         self.assertNotEqual(hash_object(df), hash_object(df.set_index(pd.Index(['2', '4', '6']))))
 
     def test_hash_series(self):
-        srs = pd.Series([6, 7, 8], name='hello')
-        srs2 = pd.Series([6, 7, 9], name='hello')
+        srs = pd.Series([6, 7, 8])
+        srs = pd.Series([6, 7, 9])
         self.assertEqual(hash_object(srs), hash_object(srs))
         self.assertNotEqual(hash_object(srs), hash_object(srs2))
+        self.assertNotEqual(hash_object(srs), hash_object(srs.rename('hello')))
+        self.assertNotEqual(hash_object(srs.rename('hello')), hash_object(srs.rename('hello2')))
+        self.assertNotEqual(hash_object(srs), hash_object(srs.rename_axis('hello')))
+        self.assertNotEqual(hash_object(srs.rename_axis('hello')), hash_object(srs.rename_axis('hello2')))
         
         
