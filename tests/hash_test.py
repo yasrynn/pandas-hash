@@ -44,7 +44,7 @@ class TestHash(unittest.TestCase):
 
     def test_hash_series(self):
         srs = pd.Series([6, 7, 8])
-        srs = pd.Series([6, 7, 9])
+        srs2 = pd.Series([6, 7, 9])
         self.assertEqual(hash_object(srs), hash_object(srs))
         self.assertNotEqual(hash_object(srs), hash_object(srs2))
         self.assertNotEqual(hash_object(srs), hash_object(srs.rename('hello')))
