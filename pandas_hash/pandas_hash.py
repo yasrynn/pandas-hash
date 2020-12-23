@@ -1,5 +1,4 @@
 import pandas as pd
-from hashlib import sha256
 from pandas.util import hash_pandas_object
 
 class PandasDataFrameWrapper:
@@ -8,7 +7,7 @@ class PandasDataFrameWrapper:
 
     def __hash__(self):
         return hash((
-            int(sha256(hash_pandas_object(self.obj).values).hexdigest(), 16),
+            tuple(hash_pandas_object(self.obj).tolist()),
             hash(self.obj.index.name),
             hash(self.obj.columns.name)
         ))
