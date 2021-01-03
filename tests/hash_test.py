@@ -52,4 +52,10 @@ class TestHash(unittest.TestCase):
         self.assertNotEqual(hash_object(srs), hash_object(srs.rename_axis('hello')))
         self.assertNotEqual(hash_object(srs.rename_axis('hello')), hash_object(srs.rename_axis('hello2')))
         
-        
+    def test_distinguish_srs_df(self):
+        srs = pd.Series([6,7,8])
+        df = pd.DataFrame(srs)
+        self.assertNotEqual(hash_object(srs), hash_object(df))
+        srs2 = srs.rename('col')
+        df2 = pd.DataFrame(srs2)
+        self.assertNotEqual(hash_object(srs2), hash_object(df2))
