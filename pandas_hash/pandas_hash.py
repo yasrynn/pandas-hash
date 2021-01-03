@@ -1,4 +1,4 @@
-import pandas as pd
+from pandas import Series, DataFrame
 from pandas.util import hash_pandas_object
 
 class PandasObjectWrapper:
@@ -26,7 +26,7 @@ def convert_hashable(obj):
             out_obj = frozenset(convert_hashable(i) for i in obj)
         elif type(obj) is dict:
             out_obj = frozenset((k, convert_hashable(v)) for k,v in obj.items())
-        elif isinstance(obj, pd.Series) or isinstance(obj, pd.DataFrame):
+        elif isinstance(obj, Series) or isinstance(obj, DataFrame):
             out_obj = PandasObjectWrapper(obj)
         else:
             raise TypeError(f"Don't know how to convert object of type {type(obj)} to hashable")
